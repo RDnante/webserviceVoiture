@@ -14,7 +14,8 @@ CREATE TABLE utilisateur(
     date_de_naissance DATE,
     email VARCHAR(100),
     numero VARCHAR(50),
-    mots_de_passe VARCHAR(50)
+    mots_de_passe VARCHAR(50),
+    role varchar(50) not null
 );
 
 CREATE TABLE marque(
@@ -47,9 +48,9 @@ CREATE TABLE voiture(
     id_energie INT REFERENCES energie(id_energie),
     id_boite_vitesse INT REFERENCES boite_vitesse(id_boite_vitesse),
     puissance INT,
-    conommation DECIMAL(3,1),
+    consommation DECIMAL(3,1),
     description TEXT,
-    numero_matricule VARCHAR(50),
+    numero_matricule VARCHAR(50)
 );
 
 CREATE TABLE status(
