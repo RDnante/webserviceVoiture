@@ -27,11 +27,47 @@ CREATE TABLE categorie(
     libelle VARCHAR(100)
 );
 
+CREATE TABLE energie(
+    id_energie SERIAL PRIMARY KEY,
+    libelle VARCHAR(20)
+);
+
+CREATE TABLE boite_vitesse(
+    id_boite_vitesse SERIAL PRIMARY KEY,
+    libelle VARCHAR(3)
+);
+
+
 CREATE TABLE voiture(
     id_voiture SERIAL PRIMARY KEY,
+    modele VARCHAR(100),
     id_marque INT REFERENCES marque(id_marque),
     id_categorie INT REFERENCES categorie(id_categorie),
-    nom VARCHAR(100),
+    moteur VARCHAR(200),
+    id_energie INT REFERENCES energie(id_energie),
+    id_boite_vitesse INT REFERENCES boite_vitesse(id_boite_vitesse),
+    puissance INT,
+    conommation DECIMAL(3,1),
+    description TEXT,
     numero_matricule VARCHAR(50),
-    prix DECIMAL 
+);
+
+CREATE TABLE status(
+    id_status SERIAL PRIMARY KEY,
+    libelle VARCHAR(30)
+);
+
+CREATE TABLE annonce(
+    id_annonce SERIAL PRIMARY KEY,
+    date_annonce DATE,
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_voiture INT REFERENCES  voiture(id_voiture),
+    prix DECIMAL(20,2),
+    id_status INT REFERENCES status(id_status)
+);
+
+CREATE TABLE photos_annonce(
+    id_photo_annonce,
+    id_annonce INT REFERENCES annonce(id_annonce),
+    photo TEXT
 );
