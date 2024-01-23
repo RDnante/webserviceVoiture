@@ -1,13 +1,13 @@
 package com.example.ventevoiture.Auth;
+import com.example.ventevoiture.Config.JwtService;
+import com.example.ventevoiture.model.Employer;
+import com.example.ventevoiture.model.Role;
+import com.example.ventevoiture.repository.EmployerRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.stock.Config.JwtService;
-import com.example.stock.Models.Employer;
-import com.example.stock.Models.Role;
-import com.example.stock.Repository.EmployerRepository;
 
 import lombok.RequiredArgsConstructor;
 
