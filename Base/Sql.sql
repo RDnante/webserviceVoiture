@@ -77,7 +77,7 @@ CREATE TABLE annonce(
 );
 
 CREATE TABLE photos_annonce(
-    id_photo_annonce,
+    id_photo_annonce SERIAL PRIMARY KEY ,
     id_annonce INT REFERENCES annonce(id_annonce),
     photo TEXT
 );
