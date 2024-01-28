@@ -35,8 +35,6 @@ public class Employer implements UserDetails{
     String lastname;
     String email;
     String password;
-    
-
     @Enumerated(EnumType.STRING)
     Role role;
     
@@ -70,5 +68,13 @@ public class Employer implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

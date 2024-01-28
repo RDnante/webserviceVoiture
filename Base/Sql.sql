@@ -18,6 +18,15 @@ CREATE TABLE utilisateur(
     role varchar(50) not null
 );
 
+create table employer (
+    id serial primary key,
+    firstname varchar(100),
+    lastname varchar(100),
+    email varchar(150),
+    password varchar,
+    role varchar
+);
+
 CREATE TABLE marque(
     id_marque SERIAL PRIMARY KEY,
     libelle VARCHAR(100) 

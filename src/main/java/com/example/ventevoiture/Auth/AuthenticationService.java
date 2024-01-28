@@ -41,8 +41,10 @@ public class AuthenticationService {
                 request.getPassword()
             )
         );
+        System.out.println(request.getEmail());
         var user = repository.findEmployerByEmail(request.getEmail())
             .orElseThrow();
+        System.out.println("hekki");
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
             .token(jwtToken)
