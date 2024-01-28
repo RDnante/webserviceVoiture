@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/boite_vitesse")
 public class Boite_vitesseController {
@@ -29,6 +31,12 @@ public class Boite_vitesseController {
     @PreAuthorize("hasRole('ADMIN')")
     public Boite_vitesse update(@RequestBody Boite_vitesse boiteVitesse) {
         return boiteVitesseRepository.save(boiteVitesse);
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public List<Boite_vitesse> list() {
+        return boiteVitesseRepository.findAll();
     }
 
 }

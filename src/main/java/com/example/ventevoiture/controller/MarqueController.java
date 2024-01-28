@@ -1,10 +1,13 @@
 package com.example.ventevoiture.controller;
 
+import com.example.ventevoiture.model.Boite_vitesse;
 import com.example.ventevoiture.model.Marque;
 import com.example.ventevoiture.repository.MarqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/marque")
@@ -29,4 +32,9 @@ public class MarqueController {
         return marqueRepository.save(marque);
     }
 
+    @GetMapping("/list")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public List<Marque> list() {
+        return marqueRepository.findAll();
+    }
 }
