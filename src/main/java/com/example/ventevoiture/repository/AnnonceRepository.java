@@ -16,7 +16,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce,Integer> {
     public List<Annonce> get_list_annonce_byIdUser(int id_utilisateur);
 
     // maka isanah vente rehetra
-    @Query("select count(annonce.id_annonce) from annonce where id_status >= 10")
+    @Query("select count(id_annonce) from annonce where id_status >= 10")
     public int get_count_vente();
 
 }

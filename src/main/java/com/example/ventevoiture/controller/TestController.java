@@ -20,4 +20,9 @@ public class TestController {
 
         return employerRepository.findAll();
     }
+
+    @GetMapping("/count")
+    public int getcount() {
+        return employerRepository.count_utilisateur();
+    }
 }
