@@ -70,7 +70,7 @@ CREATE TABLE status(
 CREATE TABLE annonce(
     id_annonce SERIAL PRIMARY KEY,
     date_annonce DATE,
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES employer(id),
     id_voiture INT REFERENCES  voiture(id_voiture),
     prix DECIMAL(20,2),
     id_status INT REFERENCES status(id_status)
@@ -81,3 +81,14 @@ CREATE TABLE photos_annonce(
     id_annonce INT REFERENCES annonce(id_annonce),
     photo TEXT
 );
+
+
+-- 28-01-24
+create table annonce_favoris (
+    id_annonce_favoris serial primary key,
+    id_employer int references employer(id),
+    id_annonce int references annonce(id_annonce),
+    date date default current_date
+);
+
+
