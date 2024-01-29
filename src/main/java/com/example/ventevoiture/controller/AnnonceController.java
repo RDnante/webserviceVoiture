@@ -56,6 +56,18 @@ public class AnnonceController {
         }
     }
 
+    @GetMapping("/listnonvalider")
+    public Etat listnonvalider() {
+        try {
+            List<Annonce> lista = annonceRepository.get_list_annonce_attente();
+            annonceService.initialisation(lista);
+            return Etat.builder().status("ok").details("register ok").object(lista).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
+    }
+
+
     @GetMapping("/list")
     public Etat list() {
         try {

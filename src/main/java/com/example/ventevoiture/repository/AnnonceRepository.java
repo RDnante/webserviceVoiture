@@ -19,4 +19,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce,Integer> {
     @Query("select count(id_annonce) from annonce where id_status >= 10")
     public int get_count_vente();
 
+    @Query("from annonce  where  id_status < 5")
+    public List<Annonce> get_list_annonce_attente();
+
 }

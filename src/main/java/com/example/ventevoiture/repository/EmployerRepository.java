@@ -11,6 +11,6 @@ public interface EmployerRepository extends JpaRepository<Employer,Integer> {
     Optional<Employer> findEmployerById(Long id);
     Optional<Employer> findEmployerByEmail(String email);
 
-    @Query("select count(id) from employer")
+    @Query("select count(id) from employer where role != 'ADMIN'")
     public int count_utilisateur();
 }
