@@ -91,4 +91,18 @@ create table annonce_favoris (
     date date default current_date
 );
 
+insert into boite_vitesse values (default,'a');
+
+insert into energie values (default,'automatique');
+
+insert into categorie values (default,'cat');
+
+insert into voiture values (default,'unique',2,1,'moteur',1,1,200,3,'description','123434');
+
+insert into status values (0,'attente');
+insert into status values (5,'valider');
+insert into status values (10,'vendu');
+
+insert into annonce values (default,default,1,1,30000,0);
+
 

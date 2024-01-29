@@ -47,11 +47,13 @@ public class AnnonceController {
 
     @PostMapping("/valider/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Etat valider(int id_annonce) {
+    public Etat valider(@PathVariable int id) {
         try {
-            Annonce a = annonceRepository.findById(id_annonce).get();
+            System.out.println("annonce "+id);
+            Annonce a = annonceRepository.findById(id).get();
             return Etat.builder().status("ok").details("update ok").object(annonceService.validation_annonce(a)).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
     }
