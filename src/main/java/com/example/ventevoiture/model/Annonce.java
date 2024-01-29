@@ -27,4 +27,9 @@ public class Annonce {
     Double prix;
     @Column
     Integer id_status;
+
+    @Transient
+    Voiture voiture;
+    @Transient
+    Employer employer;
 }

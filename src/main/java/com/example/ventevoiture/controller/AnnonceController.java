@@ -27,8 +27,12 @@ public class AnnonceController {
 
     @PutMapping("/insert")
     @PreAuthorize("hasRole('ADMIN')")
-    public Annonce insert(@RequestBody Annonce annonce) {
-        return annonceRepository.save(annonce);
+    public Etat insert(@RequestBody Annonce annonce) {
+        try {
+            return Etat.builder().status("ok").details("update ok").object(annonceRepository.save(annonce)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @PostMapping("/update")
@@ -55,7 +59,9 @@ public class AnnonceController {
     @GetMapping("/list")
     public Etat list() {
         try {
-            return Etat.builder().status("ok").details("register ok").object(annonceRepository.get_list_annonce_valider()).build();
+            List<Annonce> lista = annonceRepository.get_list_annonce_valider();
+            annonceService.initialisation(lista);
+            return Etat.builder().status("ok").details("register ok").object(lista).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
