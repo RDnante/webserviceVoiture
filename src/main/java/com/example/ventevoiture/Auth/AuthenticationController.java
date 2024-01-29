@@ -1,5 +1,6 @@
 package com.example.ventevoiture.Auth;
 
+import com.example.ventevoiture.model.Etat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,34 @@ public class AuthenticationController {
     private AuthenticationService service;
     
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
-        return ResponseEntity.ok(service.register(request));
+    public Etat register(@RequestBody RegisterRequest request){
+        try {
+            return Etat.builder()
+                    .status("ok")
+                    .details("register ok")
+                    .object(service.register(request))
+                    .build();
+        }catch (Exception e) {
+            return Etat.builder()
+                    .status("erreur")
+                    .details(e.getMessage())
+                    .build();
+        }
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-        System.out.println(request.toString());
-        return ResponseEntity.ok(service.authenticate(request));
+    public Etat authenticate(@RequestBody AuthenticationRequest request){
+        try {
+            return Etat.builder()
+                    .status("ok")
+                    .details("connecter")
+                    .object(service.authenticate(request))
+                    .build();
+        } catch (Exception e) {
+            return Etat.builder()
+                    .status("erreur")
+                    .details(e.getMessage())
+                    .build();
+        }
     }
 }
