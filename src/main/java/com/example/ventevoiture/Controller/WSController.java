@@ -1,4 +1,4 @@
-package com.example.ventevoiture.Controller;
+package com.example.ventevoiture.controller;
 
 import com.example.ventevoiture.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;

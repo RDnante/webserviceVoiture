@@ -1,6 +1,7 @@
 package com.example.ventevoiture.controller;
 
 import com.example.ventevoiture.model.Annonce;
+import com.example.ventevoiture.model.Etat;
 import com.example.ventevoiture.model.Voiture;
 import com.example.ventevoiture.repository.AnnonceRepository;
 import com.example.ventevoiture.repository.VoitureRepository;
@@ -32,27 +33,43 @@ public class AnnonceController {
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Annonce update(@RequestBody Annonce annonce) {
-        return annonceRepository.save(annonce);
+    public Etat update(@RequestBody Annonce annonce) {
+        try {
+            return Etat.builder().status("ok").details("update ok").object(annonceRepository.save(annonce)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @PostMapping("/valider/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Annonce valider(int id_annonce) {
-        Annonce a = annonceRepository.findById(id_annonce).get();
-        return annonceService.validation_annonce(a);
+    public Etat valider(int id_annonce) {
+        try {
+            Annonce a = annonceRepository.findById(id_annonce).get();
+            return Etat.builder().status("ok").details("update ok").object(annonceService.validation_annonce(a)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @GetMapping("/list")
-    public List<Annonce> list() {
-        return annonceRepository.get_list_annonce_valider();
+    public Etat list() {
+        try {
+            return Etat.builder().status("ok").details("register ok").object(annonceRepository.get_list_annonce_valider()).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @PostMapping("/vendu/{id}")
     @PreAuthorize("hasRole('USER')")
-    public Annonce vendu(int id_annonce) {
-        Annonce a = annonceRepository.findById(id_annonce).get();
-        return  annonceService.vendu_annonce(a);
+    public Etat vendu(int id_annonce) {
+        try {
+            Annonce a = annonceRepository.findById(id_annonce).get();
+            return Etat.builder().status("ok").details("register ok").object(annonceService.vendu_annonce(a)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
 

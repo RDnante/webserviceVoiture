@@ -3,6 +3,7 @@ package com.example.ventevoiture.controller;
 import com.example.ventevoiture.model.Boite_vitesse;
 import com.example.ventevoiture.model.Categorie;
 import com.example.ventevoiture.model.Energie;
+import com.example.ventevoiture.model.Etat;
 import com.example.ventevoiture.repository.CategorieRepository;
 import com.example.ventevoiture.repository.EnergieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +19,43 @@ public class EnergieController {
     EnergieRepository energieRepository;
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public void delete(@PathVariable int id) {
-        energieRepository.deleteById(id);
+    public Etat delete(@PathVariable int id) {
+        try {
+            energieRepository.deleteById(id);
+            return Etat.builder().status("ok").details("requete ok").build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @PutMapping("/insert")
     @PreAuthorize("hasRole('ADMIN')")
-    public Energie insert(@RequestBody Energie energie) {
-        return energieRepository.save(energie);
+    public Etat insert(@RequestBody Energie energie) {
+
+        try {
+            return Etat.builder().status("ok").details("requete ok").object(energieRepository.save(energie)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @PostMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public Energie update(@RequestBody Energie energie) {
-        return energieRepository.save(energie);
+    public Etat update(@RequestBody Energie energie) {
+        try {
+            return Etat.builder().status("ok").details("requete ok").object(energieRepository.save(energie)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 
     @GetMapping("/list")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    public List<Energie> list() {
-        return energieRepository.findAll();
+    public Etat list() {
+        try {
+            return Etat.builder().status("ok").details("requete ok").object(energieRepository.findAll()).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
     }
 }

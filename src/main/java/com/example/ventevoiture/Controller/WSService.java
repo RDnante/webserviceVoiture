@@ -1,4 +1,4 @@
-package com.example.ventevoiture.Controller;
+package com.example.ventevoiture.controller;
 
 import com.example.ventevoiture.ResponseMessage;
 import com.example.ventevoiture.model.Chat;
