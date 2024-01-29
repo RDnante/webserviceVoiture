@@ -1,9 +1,11 @@
 package com.example.ventevoiture.controller;
 
 import com.example.ventevoiture.model.Annonce;
+import com.example.ventevoiture.model.Annonce_favoris;
 import com.example.ventevoiture.model.Etat;
 import com.example.ventevoiture.model.Voiture;
 import com.example.ventevoiture.repository.AnnonceRepository;
+import com.example.ventevoiture.repository.Annonce_favorisRepository;
 import com.example.ventevoiture.repository.VoitureRepository;
 import com.example.ventevoiture.service.AnnonceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class AnnonceController {
     AnnonceRepository annonceRepository;
     @Autowired
     AnnonceService annonceService;
+    @Autowired
+    Annonce_favorisRepository annonceFavorisRepository;
+
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable int id) {
@@ -87,6 +92,16 @@ public class AnnonceController {
         try {
             Annonce a = annonceRepository.findById(id_annonce).get();
             return Etat.builder().status("ok").details("register ok").object(annonceService.vendu_annonce(a)).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
+    }
+
+    @PostMapping("/favoris")
+    @PreAuthorize("hasAuthority('USER')")
+    public Etat favoris(@RequestBody Annonce_favoris af) {
+        try {
+            return Etat.builder().status("ok").details("register ok").object(annonceFavorisRepository.save(af)).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
