@@ -45,6 +45,7 @@ public class AuthenticationService {
         var user = repository.findEmployerByEmail(request.getEmail())
             .orElseThrow();
         System.out.println("hekki");
+        System.out.println("Role "+user.getRole());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
             .token(jwtToken)

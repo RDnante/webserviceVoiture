@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                                         .requestMatchers("/auth/**").permitAll()
-                                        .requestMatchers(HttpMethod.PUT,"/marque/**").hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.PUT,"/marque/**").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                         .anyRequest().authenticated())
                 .sessionManagement(sessionManagement -> sessionManagement
