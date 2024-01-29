@@ -29,12 +29,13 @@ public class CategorieController {
         }
     }
 
-    @PutMapping("/insert")
     @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/insert")
     public Etat insert(@RequestBody Categorie categorie) {
         try {
             return Etat.builder().status("ok").details("requete ok").object(categorieRepository.save(categorie)).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
     }
