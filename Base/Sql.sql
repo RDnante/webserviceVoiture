@@ -44,7 +44,7 @@ CREATE TABLE energie(
 
 CREATE TABLE boite_vitesse(
     id_boite_vitesse SERIAL PRIMARY KEY,
-    libelle VARCHAR(3)
+    libelle VARCHAR(100)
 );
 
 
