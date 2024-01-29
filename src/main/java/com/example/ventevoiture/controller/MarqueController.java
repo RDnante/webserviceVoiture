@@ -43,6 +43,7 @@ public class MarqueController {
         try {
             return Etat.builder().status("ok").details("requete ok").object(marqueRepository.save(marque)).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
     }
