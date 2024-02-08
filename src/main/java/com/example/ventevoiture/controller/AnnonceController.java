@@ -102,7 +102,7 @@ public class AnnonceController {
 
     @PostMapping("/vendu/{id}")
     @PreAuthorize("hasRole('USER')")
-    public Etat vendu(int id) {
+    public Etat vendu(@PathVariable int id) {
         try {
             Annonce a = annonceRepository.findById(id).get();
             return Etat.builder().status("ok").details("register ok").object(annonceService.vendu_annonce(a)).build();
