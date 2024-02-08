@@ -165,7 +165,7 @@ public class AnnonceController {
         }
     }
 
-    @GetMapping("/listfavoris")
+    @PostMapping("/listfavoris")
     public Etat listfavoris(@RequestBody JsonResponse jsonResponse) {
         try {
             Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
