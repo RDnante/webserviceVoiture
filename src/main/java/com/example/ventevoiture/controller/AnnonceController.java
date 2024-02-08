@@ -8,6 +8,7 @@ import com.example.ventevoiture.service.UtilisateurService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.security.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,8 +63,9 @@ public class AnnonceController {
         }
     }
 
+    @Secured("ADMIN")
     @PostMapping("/valider/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public Etat valider(@PathVariable int id) {
         try {
             System.out.println("annonce "+id);
@@ -174,4 +176,15 @@ public class AnnonceController {
         }
     }
 
+    @GetMapping("/listbyuser")
+    public Etat listByUser(@RequestBody JsonResponse jsonResponse) {
+        try {
+            Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
+            List<Annonce> annonceList = annonceService.get_annonce_by_utilisateur(e.getId().intValue());
+            annonceService.initialisation(annonceList);
+            return Etat.builder().status("ok").details("get list annonce by users").object(annonceList).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
 }
