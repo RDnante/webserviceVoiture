@@ -28,6 +28,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                                         .requestMatchers("/auth/**").permitAll()
+                                        .requestMatchers("/annonce/list").permitAll()
                                         .requestMatchers(HttpMethod.PUT,"/marque/**").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                         .anyRequest().authenticated())
