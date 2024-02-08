@@ -29,7 +29,6 @@ public class VoitureController {
     }
 
     @PutMapping("/insert")
-    @PreAuthorize("hasRole('ADMIN')")
     public Etat insert(@RequestBody Voiture voiture) {
         try {
             return Etat.builder().status("ok").details("requete ok").object(voitureRepository.save(voiture)).build();

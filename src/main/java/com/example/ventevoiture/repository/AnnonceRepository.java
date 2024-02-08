@@ -25,4 +25,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce,Integer> {
     @Query("select max(id_annonce) from annonce")
     public int getlastid_annonce();
 
+    @Query("from annonce where id_status >= 5 and id_status < 10 and id_utilisateur = ?1")
+    public List<Annonce> getListNonVenduByUser(int id_user);
+
 }

@@ -187,4 +187,16 @@ public class AnnonceController {
             return Etat.builder().status("error").details(e.getMessage()).build();
         }
     }
+
+    @PostMapping("/listnonvendu")
+    public Etat listnonvendubyuser(@RequestBody JsonResponse jsonResponse) {
+        try {
+            Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
+            List<Annonce> annonceList = annonceRepository.getListNonVenduByUser(e.getId().intValue());
+            annonceService.initialisation(annonceList);
+            return Etat.builder().status("ok").details("get list annonce non vendu by user").object(annonceList).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
 }
