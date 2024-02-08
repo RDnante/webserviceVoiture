@@ -36,4 +36,13 @@ public class Voiture {
     @Column
     String numero_matricule;
 
+    @Transient
+    Marque marque;
+    @Transient
+    Energie energie;
+    @Transient
+    Categorie categorie;
+    @Transient
+    Boite_vitesse boite_vitesse;
+
 }

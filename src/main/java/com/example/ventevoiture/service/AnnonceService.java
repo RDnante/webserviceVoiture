@@ -20,6 +20,8 @@ public class AnnonceService {
     EmployerRepository employerRepository;
     @Autowired
     Photos_annonceRepository photosAnnonceRepository;
+    @Autowired
+    VoitureService voitureService;
 
     // fonction mi-valider annonce
     public Annonce validation_annonce(Annonce annonce) {
@@ -61,6 +63,7 @@ public class AnnonceService {
             a.setVoiture(voitureRepository.findById(a.getId_voiture()).get());
             a.setEmployer(employerRepository.findById(a.getId_utilisateur()).get());
             a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
+            voitureService.initVoiture(a.getVoiture());
         }
     }
 
@@ -69,6 +72,7 @@ public class AnnonceService {
             a.setVoiture(voitureRepository.findById(a.getId_voiture()).get());
             a.setEmployer(employerRepository.findById(a.getId_utilisateur()).get());
             a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
+            voitureService.initVoiture(a.getVoiture());
 //        }
     }
 }
