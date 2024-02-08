@@ -22,4 +22,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce,Integer> {
     @Query("from annonce  where  id_status < 5")
     public List<Annonce> get_list_annonce_attente();
 
+    @Query("select max(id_annonce) from annonce")
+    public int getlastid_annonce();
+
 }

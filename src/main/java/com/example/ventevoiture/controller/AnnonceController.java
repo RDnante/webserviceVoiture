@@ -88,9 +88,9 @@ public class AnnonceController {
 
     @PostMapping("/vendu/{id}")
     @PreAuthorize("hasRole('USER')")
-    public Etat vendu(int id_annonce) {
+    public Etat vendu(int id) {
         try {
-            Annonce a = annonceRepository.findById(id_annonce).get();
+            Annonce a = annonceRepository.findById(id).get();
             return Etat.builder().status("ok").details("register ok").object(annonceService.vendu_annonce(a)).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
@@ -122,5 +122,26 @@ public class AnnonceController {
         }
     }
 
+    @GetMapping("/lastid")
+    public Etat getlastidannonce() {
+        try {
+            int last = annonceRepository.getlastid_annonce();
+
+            return Etat.builder().status("ok").details("get last").object(last).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public Etat getid(int id) {
+        try {
+            Annonce a = annonceRepository.findById(id).get();
+
+            return Etat.builder().status("ok").details("get id").object(a).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
 
 }
