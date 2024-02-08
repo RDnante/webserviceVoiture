@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -32,4 +33,6 @@ public class Annonce {
     Voiture voiture;
     @Transient
     Employer employer;
+    @Transient
+    List<Photos_annonce> photos;
 }

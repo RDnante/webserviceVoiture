@@ -2,10 +2,7 @@ package com.example.ventevoiture.service;
 
 import com.example.ventevoiture.model.Annonce;
 import com.example.ventevoiture.model.Annonce_favoris;
-import com.example.ventevoiture.repository.AnnonceRepository;
-import com.example.ventevoiture.repository.Annonce_favorisRepository;
-import com.example.ventevoiture.repository.EmployerRepository;
-import com.example.ventevoiture.repository.VoitureRepository;
+import com.example.ventevoiture.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +18,8 @@ public class AnnonceService {
     VoitureRepository voitureRepository;
     @Autowired
     EmployerRepository employerRepository;
+    @Autowired
+    Photos_annonceRepository photosAnnonceRepository;
 
     // fonction mi-valider annonce
     public Annonce validation_annonce(Annonce annonce) {
@@ -61,6 +60,7 @@ public class AnnonceService {
         for (Annonce a : list) {
             a.setVoiture(voitureRepository.findById(a.getId_voiture()).get());
             a.setEmployer(employerRepository.findById(a.getId_utilisateur()).get());
+            a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
         }
     }
 }

@@ -1,11 +1,9 @@
 package com.example.ventevoiture.controller;
 
-import com.example.ventevoiture.model.Annonce;
-import com.example.ventevoiture.model.Annonce_favoris;
-import com.example.ventevoiture.model.Etat;
-import com.example.ventevoiture.model.Voiture;
+import com.example.ventevoiture.model.*;
 import com.example.ventevoiture.repository.AnnonceRepository;
 import com.example.ventevoiture.repository.Annonce_favorisRepository;
+import com.example.ventevoiture.repository.Photos_annonceRepository;
 import com.example.ventevoiture.repository.VoitureRepository;
 import com.example.ventevoiture.service.AnnonceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,8 @@ public class AnnonceController {
     AnnonceService annonceService;
     @Autowired
     Annonce_favorisRepository annonceFavorisRepository;
+    @Autowired
+    Photos_annonceRepository photosAnnonceRepository;
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -104,6 +104,21 @@ public class AnnonceController {
             return Etat.builder().status("ok").details("register ok").object(annonceFavorisRepository.save(af)).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
+    }
+
+    @PostMapping("/file")
+    public Etat uploadFile(@RequestBody FilesBody files) {
+        try {
+            FileHelper file = new FileHelper();
+//            for (String fileBase64 : files.getFiles()) {
+                // file.upload(fileBase64);
+                Photos_annonce an = (Photos_annonce) file.uploadOnline(files.getFiles(),files.getId_annonce());
+                photosAnnonceRepository.save(an);
+//            }
+            return Etat.builder().status("ok").details("File uploaded").object(an).build();
+        } catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
         }
     }
 
