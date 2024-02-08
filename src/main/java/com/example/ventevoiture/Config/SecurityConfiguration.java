@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                                         .requestMatchers("/auth/**").permitAll()
                                         .requestMatchers("/annonce/list").permitAll()
+                                        .requestMatchers("/annonce/get/**").permitAll()
                                         .requestMatchers(HttpMethod.PUT,"/marque/**").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                         .anyRequest().authenticated())

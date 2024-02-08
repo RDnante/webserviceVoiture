@@ -63,4 +63,12 @@ public class AnnonceService {
             a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
         }
     }
+
+    public void initialisation(Annonce a) {
+//        for (Annonce a : list) {
+            a.setVoiture(voitureRepository.findById(a.getId_voiture()).get());
+            a.setEmployer(employerRepository.findById(a.getId_utilisateur()).get());
+            a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
+//        }
+    }
 }

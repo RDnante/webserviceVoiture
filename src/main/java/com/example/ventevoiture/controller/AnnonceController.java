@@ -134,10 +134,10 @@ public class AnnonceController {
     }
 
     @GetMapping("/get/{id}")
-    public Etat getid(int id) {
+    public Etat getid(@PathVariable int id) {
         try {
             Annonce a = annonceRepository.findById(id).get();
-
+            annonceService.initialisation(a);
             return Etat.builder().status("ok").details("get id").object(a).build();
         }catch (Exception e) {
             return Etat.builder().status("error").details(e.getMessage()).build();
