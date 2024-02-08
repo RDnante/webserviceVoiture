@@ -176,7 +176,7 @@ public class AnnonceController {
         }
     }
 
-    @GetMapping("/listbyuser")
+    @PostMapping("/listbyuser")
     public Etat listByUser(@RequestBody JsonResponse jsonResponse) {
         try {
             Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
