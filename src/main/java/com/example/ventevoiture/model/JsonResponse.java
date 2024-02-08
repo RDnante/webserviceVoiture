@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JsonResponse {
-    private Data data;
-    private boolean success;
-    private int status;
+    Annonce annonce;
+    Object object;
 
-    private String url;
+    int id;
+    String token;
 //    public static class Image {
 //        private String filename;
 //        private String name;

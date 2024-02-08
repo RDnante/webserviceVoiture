@@ -6,6 +6,7 @@ import com.example.ventevoiture.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -74,5 +75,18 @@ public class AnnonceService {
             a.setPhotos(photosAnnonceRepository.getAllPhoto(a.getId_annonce()));
             voitureService.initVoiture(a.getVoiture());
 //        }
+    }
+
+    // maka ny liste annonce favoris par utilisateur
+    public List<Annonce> getFavorisByUsers(int id_user) {
+        List<Annonce_favoris> annonceFavorisList = annonceFavorisRepository.getAll_id_annonce_favoris(id_user);
+        List<Annonce> valiny = new ArrayList<>();
+        for (Annonce_favoris af : annonceFavorisList) {
+            valiny.add(annonceRepository.findById(af.getId_annonce()).get());
+        }
+
+        this.initialisation(valiny);
+
+        return valiny;
     }
 }

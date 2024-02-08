@@ -1,11 +1,12 @@
 package com.example.ventevoiture.controller;
 
+import com.example.ventevoiture.Config.JwtService;
 import com.example.ventevoiture.model.*;
-import com.example.ventevoiture.repository.AnnonceRepository;
-import com.example.ventevoiture.repository.Annonce_favorisRepository;
-import com.example.ventevoiture.repository.Photos_annonceRepository;
-import com.example.ventevoiture.repository.VoitureRepository;
+import com.example.ventevoiture.repository.*;
 import com.example.ventevoiture.service.AnnonceService;
+import com.example.ventevoiture.service.UtilisateurService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.security.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,12 @@ public class AnnonceController {
     Annonce_favorisRepository annonceFavorisRepository;
     @Autowired
     Photos_annonceRepository photosAnnonceRepository;
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    EmployerRepository employerRepository;
+    @Autowired
+    UtilisateurService utilisateurService;
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -32,11 +39,16 @@ public class AnnonceController {
 
     @PutMapping("/insert")
     @PreAuthorize("hasRole('ADMIN')")
-    public Etat insert(@RequestBody Annonce annonce) {
+    public Etat insert(@RequestBody JsonResponse jsonResponse) {
         try {
-            return Etat.builder().status("ok").details("update ok").object(annonceRepository.save(annonce)).build();
+
+            System.out.println("annonce"+ jsonResponse.getAnnonce());
+            Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
+            jsonResponse.getAnnonce().setId_utilisateur(e.getId().intValue());
+
+            return Etat.builder().status("ok").details("update ok").object(annonceRepository.save(jsonResponse.getAnnonce())).build();
         } catch (Exception e) {
-            return Etat.builder().status("erreur").details(e.getMessage()).build();
+            return Etat.builder().status("erreur").details(e.getMessage()).object(jsonResponse).build();
         }
     }
 
@@ -99,9 +111,16 @@ public class AnnonceController {
 
     @PostMapping("/favoris")
     @PreAuthorize("hasAuthority('USER')")
-    public Etat favoris(@RequestBody Annonce_favoris af) {
+    public Etat favoris(@RequestBody JsonResponse reponse) {
         try {
-            return Etat.builder().status("ok").details("register ok").object(annonceFavorisRepository.save(af)).build();
+            String email = jwtService.extractUsername(reponse.getToken());
+//            System.out.println(email);
+            Employer e = employerRepository.findEmployerByEmail(email).get();
+            Annonce_favoris annonceFavoris = new Annonce_favoris();
+            annonceFavoris.setId_annonce(Integer.valueOf(reponse.getObject().toString()));
+            annonceFavoris.setId_employer(e.getId().intValue());
+
+            return Etat.builder().status("ok").details("register ok").object(annonceFavorisRepository.save(annonceFavoris)).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
@@ -139,6 +158,17 @@ public class AnnonceController {
             Annonce a = annonceRepository.findById(id).get();
             annonceService.initialisation(a);
             return Etat.builder().status("ok").details("get id").object(a).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("/listfavoris")
+    public Etat listfavoris(@RequestBody JsonResponse jsonResponse) {
+        try {
+            Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
+            List<Annonce> annonceList = annonceService.getFavorisByUsers(e.getId().intValue());
+            return Etat.builder().status("ok").details("get list annonce favoris").object(annonceList).build();
         }catch (Exception e) {
             return Etat.builder().status("error").details(e.getMessage()).build();
         }

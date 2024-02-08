@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface EmployerRepository extends JpaRepository<Employer,Integer> {
     Optional<Employer> findEmployerById(Long id);
+
+    @Query("from employer  where  email = ?1")
     Optional<Employer> findEmployerByEmail(String email);
 
     @Query("select count(id) from employer where role != 'ADMIN'")
