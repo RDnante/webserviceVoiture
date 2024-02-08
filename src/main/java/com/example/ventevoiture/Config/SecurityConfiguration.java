@@ -29,7 +29,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                                         .requestMatchers("/auth/**").permitAll()
                                         .requestMatchers("/annonce/list").permitAll()
+                                        .requestMatchers("/annonce/lastid").permitAll()
+                                        .requestMatchers("/marque/list").permitAll()
+                                        .requestMatchers("/energie/list").permitAll()
+                                        .requestMatchers("/boite_vitesse/list").permitAll()
+                                        .requestMatchers("/categorie/list").permitAll()
                                         .requestMatchers("/annonce/get/**").permitAll()
+                                        .requestMatchers("/voiture/list").permitAll()
+                                        .requestMatchers("/voiture/getlast").permitAll()
+
                         // controller annonce admin
                                         .requestMatchers("/annonce/valider/**").hasAuthority("ADMIN")
                                         .requestMatchers(HttpMethod.PUT,"/marque/**").hasAuthority("ADMIN")

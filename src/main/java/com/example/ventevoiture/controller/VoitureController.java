@@ -57,4 +57,13 @@ public class VoitureController {
         }
     }
 
+    @GetMapping("/getlast")
+    public Etat getlast() {
+        try {
+            return Etat.builder().status("ok").details("requete ok").object(voitureRepository.getLastId_voiture()).build();
+        } catch (Exception e) {
+            return Etat.builder().status("erreur").details(e.getMessage()).build();
+        }
+    }
+
 }
