@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                                         .requestMatchers("/auth/**").permitAll()
                                         .requestMatchers("/annonce/list").permitAll()
                                         .requestMatchers("/annonce/lastid").permitAll()
+                                        .requestMatchers("/annonce/rechercher").permitAll()
                                         .requestMatchers("/marque/list").permitAll()
                                         .requestMatchers("/energie/list").permitAll()
                                         .requestMatchers("/boite_vitesse/list").permitAll()

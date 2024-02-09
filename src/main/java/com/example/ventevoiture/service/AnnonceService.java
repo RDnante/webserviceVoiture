@@ -25,30 +25,31 @@ public class AnnonceService {
     VoitureService voitureService;
 
     // fonction mi-valider annonce
-    public Annonce[] recherche(String motcle, Date date, int idCategorie, double prixmin, double prixmax, int idMarque, int idEnergie, int idBoiteVitesse, double consoMin, double consoMax){
-        List<Annonce> annonces = annonceRepository.findAll();
-        Annonce[] listAnnonce = annonces.toArray(new Annonce[0]);
-        Voiture[] voitures = new Voiture[listAnnonce.length];
+    public List<Annonce> recherche(String motcle, Date date, int idCategorie, double prixmin, double prixmax, int idMarque, int idEnergie, int idBoiteVitesse, double consoMin, double consoMax){
+        List<Annonce> annonces = annonceRepository.get_list_annonce_valider();
+        Voiture[] voitures = new Voiture[annonces.size()];
         List<Annonce> val = new ArrayList<Annonce>();
         int conf = 0;
-        for (int i = 0; i < listAnnonce.length; i++) {
-            voitures[i] = voitureRepository.getReferenceById(listAnnonce[i].getId_voiture());
-            if ((listAnnonce[i].getDate_annonce().equals(date) || date==null) &&
-                    (voitures[i].getId_categorie()==idCategorie || idCategorie==0) &&
-                    ((listAnnonce[i].getPrix()>=prixmin && listAnnonce[i].getPrix()<=prixmax) || (prixmin==0 && prixmax==0)) &&
+        for (int i = 0; i < annonces.size(); i++) {
+            voitures[i] = voitureRepository.findById(annonces.get(i).getId_voiture()).get();
+            System.out.println(voitures[i].getId_energie());
+            System.out.println(idEnergie);
+            if ((voitures[i].getId_categorie()==idCategorie || idCategorie==0) &&
+                    ((annonces.get(i).getPrix()>=prixmin && annonces.get(i).getPrix()<=prixmax) || (prixmin==0 && prixmax==0)) &&
                     (voitures[i].getId_marque()==idMarque || idMarque==0) &&
                     (voitures[i].getId_energie()==idEnergie || idEnergie==0) &&
                     (voitures[i].getId_boite_vitesse()==idBoiteVitesse || idBoiteVitesse==0) &&
                     (voitures[i].getConsommation()>=consoMin && voitures[i].getConsommation()<=consoMax || (consoMin==0 && consoMax==0))
                 ) {
-                val.add(listAnnonce[i]);
+                val.add(annonces.get(i));
                 conf++;
+                System.out.println("niditra");
             }
         }
         if (conf!=0) {
             Set<Annonce> sansDoublons = new HashSet<>(val);
             val = new ArrayList<>(sansDoublons);
-            return val.toArray(new Annonce[0]);
+            return val;
         }
         return null;
     }

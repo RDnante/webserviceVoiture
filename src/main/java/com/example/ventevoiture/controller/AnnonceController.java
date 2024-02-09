@@ -193,6 +193,7 @@ public class AnnonceController {
         try {
             Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
             List<Annonce> annonceList = annonceService.get_annonce_by_utilisateur(e.getId().intValue());
+            System.out.println(e.getId().intValue());
             annonceService.initialisation(annonceList);
             return Etat.builder().status("ok").details("get list annonce by users").object(annonceList).build();
         }catch (Exception e) {
@@ -212,13 +213,14 @@ public class AnnonceController {
         }
     }
 
-    @GetMapping("/rechercher")
-    public Etat listrecherche() {
+    @PostMapping("/rechercher")
+    public Etat listrecherche(@RequestBody Recherche recherche) {
         try {
-
-
-            return Etat.builder().status("ok").details("get list annonce non vendu by user").object(null).build();
+            List<Annonce> annonceList  = annonceService.recherche(recherche.getMotCle(), recherche.getDate(), recherche.getIdCategorie(), recherche.getPrixMin(), recherche.getPrixMax(), recherche.getIdMarque(), recherche.getIdEnergie(), recherche.getIdBoiteVitesse(), recherche.getConsoMin(), recherche.getConsoMax());
+            annonceService.initialisation(annonceList);
+            return Etat.builder().status("ok").details("get list annonce recherche").object(annonceList).build();
         }catch (Exception e) {
+            e.printStackTrace();
             return Etat.builder().status("error").details(e.getMessage()).build();
         }
     }
