@@ -2,12 +2,12 @@ package com.example.ventevoiture.service;
 
 import com.example.ventevoiture.model.Annonce;
 import com.example.ventevoiture.model.Annonce_favoris;
+import com.example.ventevoiture.model.Voiture;
 import com.example.ventevoiture.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class AnnonceService {
@@ -25,6 +25,33 @@ public class AnnonceService {
     VoitureService voitureService;
 
     // fonction mi-valider annonce
+    public Annonce[] recherche(String motcle, Date date, int idCategorie, double prixmin, double prixmax, int idMarque, int idEnergie, int idBoiteVitesse, double consoMin, double consoMax){
+        List<Annonce> annonces = annonceRepository.findAll();
+        Annonce[] listAnnonce = annonces.toArray(new Annonce[0]);
+        Voiture[] voitures = new Voiture[listAnnonce.length];
+        List<Annonce> val = new ArrayList<Annonce>();
+        int conf = 0;
+        for (int i = 0; i < listAnnonce.length; i++) {
+            voitures[i] = voitureRepository.getReferenceById(listAnnonce[i].getId_voiture());
+            if ((listAnnonce[i].getDate_annonce().equals(date) || date==null) &&
+                    (voitures[i].getId_categorie()==idCategorie || idCategorie==0) &&
+                    ((listAnnonce[i].getPrix()>=prixmin && listAnnonce[i].getPrix()<=prixmax) || (prixmin==0 && prixmax==0)) &&
+                    (voitures[i].getId_marque()==idMarque || idMarque==0) &&
+                    (voitures[i].getId_energie()==idEnergie || idEnergie==0) &&
+                    (voitures[i].getId_boite_vitesse()==idBoiteVitesse || idBoiteVitesse==0) &&
+                    (voitures[i].getConsommation()>=consoMin && voitures[i].getConsommation()<=consoMax || (consoMin==0 && consoMax==0))
+                ) {
+                val.add(listAnnonce[i]);
+                conf++;
+            }
+        }
+        if (conf!=0) {
+            Set<Annonce> sansDoublons = new HashSet<>(val);
+            val = new ArrayList<>(sansDoublons);
+            return val.toArray(new Annonce[0]);
+        }
+        return null;
+    }
     public Annonce validation_annonce(Annonce annonce) {
         if (annonce.getId_status() < 5) {
             annonce.setId_status(5);
