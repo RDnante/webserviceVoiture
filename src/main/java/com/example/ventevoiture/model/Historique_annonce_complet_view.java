@@ -5,35 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.sql.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "annonce")
-public class Annonce {
+@Entity(name = "historique_annonce_complet_view")
+public class Historique_annonce_complet_view {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id_annonce_historique;
+    @Column
     Integer id_annonce;
-    @Column
+    Integer status;
+    Date date_modification;
     Date date_annonce;
-    @Column
     Integer id_utilisateur;
-    @Column
     Integer id_voiture;
-    @Column
-    Double prix;
-    @Column
-    Integer id_status;
 
     @Transient
     Voiture voiture;
-    @Transient
-    Employer employer;
-    @Transient
-    List<Photos_annonce> photos;
 }

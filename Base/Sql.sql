@@ -91,6 +91,19 @@ create table annonce_favoris (
     date date default current_date
 );
 
+create table historique_annonce (
+    id_historique_annonce serial primary key,
+    id_annonce int references annonce(id_annonce),
+    status int,
+    date_modification date default current_date
+);
+
+insert into historique_annonce values (default,3,0,'2012-10-29');
+
+create view historique_annonce_complet_view as
+    select id_historique_annonce,ha.id_annonce,ha.status,ha.date_modification,a.date_annonce,a.id_utilisateur,a.id_voiture from historique_annonce as ha
+        join annonce as a on ha.id_annonce = a.id_annonce;
+
 insert into boite_vitesse values (default,'a');
 
 insert into energie values (default,'automatique');

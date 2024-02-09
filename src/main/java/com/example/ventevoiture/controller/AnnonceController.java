@@ -4,6 +4,7 @@ import com.example.ventevoiture.Config.JwtService;
 import com.example.ventevoiture.model.*;
 import com.example.ventevoiture.repository.*;
 import com.example.ventevoiture.service.AnnonceService;
+import com.example.ventevoiture.service.HistoriqueService;
 import com.example.ventevoiture.service.UtilisateurService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.security.Request;
@@ -31,6 +32,10 @@ public class AnnonceController {
     EmployerRepository employerRepository;
     @Autowired
     UtilisateurService utilisateurService;
+    @Autowired
+    Historique_annonceRepository historiqueAnnonceRepository;
+    @Autowired
+    HistoriqueService historiqueService;
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
@@ -46,8 +51,10 @@ public class AnnonceController {
             System.out.println("annonce"+ jsonResponse.getAnnonce());
             Employer e = utilisateurService.getempByToken(jsonResponse.getToken());
             jsonResponse.getAnnonce().setId_utilisateur(e.getId().intValue());
+            Annonce a = annonceRepository.save(jsonResponse.getAnnonce());
+            historiqueService.engHistorique(a);
 
-            return Etat.builder().status("ok").details("update ok").object(annonceRepository.save(jsonResponse.getAnnonce())).build();
+            return Etat.builder().status("ok").details("update ok").object(a).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).object(jsonResponse).build();
         }
@@ -70,7 +77,9 @@ public class AnnonceController {
         try {
             System.out.println("annonce "+id);
             Annonce a = annonceRepository.findById(id).get();
-            return Etat.builder().status("ok").details("update ok").object(annonceService.validation_annonce(a)).build();
+            a = annonceService.validation_annonce(a);
+            historiqueService.engHistorique(a);
+            return Etat.builder().status("ok").details("update ok").object(a).build();
         } catch (Exception e) {
             e.printStackTrace();
             return Etat.builder().status("erreur").details(e.getMessage()).build();
@@ -105,7 +114,9 @@ public class AnnonceController {
     public Etat vendu(@PathVariable int id) {
         try {
             Annonce a = annonceRepository.findById(id).get();
-            return Etat.builder().status("ok").details("register ok").object(annonceService.vendu_annonce(a)).build();
+            a = annonceService.vendu_annonce(a);
+            historiqueService.engHistorique(a);
+            return Etat.builder().status("ok").details("register ok").object(a).build();
         } catch (Exception e) {
             return Etat.builder().status("erreur").details(e.getMessage()).build();
         }
