@@ -56,6 +56,7 @@ public class AnnonceController {
 
             return Etat.builder().status("ok").details("update ok").object(a).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return Etat.builder().status("erreur").details(e.getMessage()).object(jsonResponse).build();
         }
     }
@@ -206,6 +207,17 @@ public class AnnonceController {
             List<Annonce> annonceList = annonceRepository.getListNonVenduByUser(e.getId().intValue());
             annonceService.initialisation(annonceList);
             return Etat.builder().status("ok").details("get list annonce non vendu by user").object(annonceList).build();
+        }catch (Exception e) {
+            return Etat.builder().status("error").details(e.getMessage()).build();
+        }
+    }
+
+    @GetMapping("/rechercher")
+    public Etat listrecherche() {
+        try {
+
+
+            return Etat.builder().status("ok").details("get list annonce non vendu by user").object(null).build();
         }catch (Exception e) {
             return Etat.builder().status("error").details(e.getMessage()).build();
         }
