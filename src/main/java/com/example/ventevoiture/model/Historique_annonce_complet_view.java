@@ -16,7 +16,7 @@ import java.sql.Date;
 public class Historique_annonce_complet_view {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id_annonce_historique;
+    Integer id_historique_annonce;
     @Column
     Integer id_annonce;
     Integer status;

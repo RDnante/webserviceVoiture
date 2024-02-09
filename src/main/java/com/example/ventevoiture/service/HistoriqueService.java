@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class HistoriqueService {
@@ -32,5 +33,11 @@ public class HistoriqueService {
     }
     public void Initialisation(Historique_annonce_complet_view hac) {
         hac.setVoiture(voitureRepository.findById(hac.getId_voiture()).get());
+    }
+
+    public void Initialisation(List<Historique_annonce_complet_view> list) {
+        for (Historique_annonce_complet_view a : list) {
+            this.Initialisation(a);
+        }
     }
 }
